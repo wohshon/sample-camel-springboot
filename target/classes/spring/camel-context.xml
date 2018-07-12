@@ -2,8 +2,8 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="        http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd        http://camel.apache.org/schema/spring       http://camel.apache.org/schema/spring/camel-spring.xsd">
     <camelContext id="camel" xmlns="http://camel.apache.org/schema/spring">
-         <restConfiguration bindingMode="auto" component="undertow" port="{{rest.port}}"/>
-<!-- 		  <restConfiguration bindingMode="auto" /> -->
+        <restConfiguration bindingMode="auto" component="undertow" port="{{rest.port}}"/>
+        <!-- 		  <restConfiguration bindingMode="auto" /> -->
         <!-- using rest dsl, rest.xml defined in com.demo 
 
 		  <rest path="/say">
@@ -15,43 +15,39 @@
 		    </get>
 		  </rest>
 
--->		
-
-
-		  <route>
-		    <from uri="direct:hello"/>
-<!-- 		    <transform>
+-->
+        <route id="_route1">
+            <!-- 		    <transform>
 		      <constant>Hello World</constant>
 		    </transform> -->
-		    
-<!-- 			
+            <!-- 			
 			<setHeader headerName="data"> 
 			        <constant>Hello</constant> 
 			</setHeader>		     -
 			<to uri="sql:insert into fusetest values(null, :#data)?dataSourceRef=dataSource"/>
 			-->
-			
-			<!-- my data is sent in via the rest api as 'msg' -->
-		    <to uri="sql:insert into fusetest values(null, :#msg)?dataSourceRef=dataSource"/>
-		    <setBody>
-		    	<constant>
+            <!-- my data is sent in via the rest api as 'msg' -->
+            <from id="_from1" uri="direct:hello"/>
+            <to id="_to1" uri="sql:insert into fusetest values(null, :#msg)?dataSourceRef=dataSource"/>
+            <setBody id="_setBody1">
+                <constant>
 		    		data saved
 		    	</constant>
-		    </setBody>
-		  </route>
-		  <route>
-		    <from uri="direct:bye"/>
-		    <transform>
-		      <constant>Bye World</constant>
-		    </transform>
-		  </route>
-      </camelContext>
-    <bean id="dataSource"
-        class="org.springframework.jdbc.datasource.SimpleDriverDataSource">
-        <property name="driverClass" value="org.mariadb.jdbc.Driver" />
-        <property name="url" value="jdbc:mariadb://localhost:3306/demodb" />
-        <property name="username" value="demouser" />
-        <property name="password" value="password" />
+            </setBody>
+        </route>
+        <route id="_route2">
+            <from id="_from2" uri="direct:bye"/>
+            <transform id="_transform1">
+                <constant>Bye World</constant>
+            </transform>
+        </route>
+    </camelContext>
+    <bean
+        class="org.springframework.jdbc.datasource.SimpleDriverDataSource" id="dataSource">
+        <property name="driverClass" value="${db.driver}"/>
+        <property name="url" value="${db.url}"/>
+        <property name="username" value="${db.username}"/>
+        <property name="password" value="${db.password}"/>
     </bean>
-          
+    
 </beans>

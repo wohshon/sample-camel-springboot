@@ -3,7 +3,9 @@ apiVersion: apps.openshift.io/v1
 kind: DeploymentConfig
 metadata:
   annotations:
+    fabric8.io/git-commit: 5e117a68e800d0e2bc19826bb1f4fc0e453e8bb6
     fabric8.io/iconUrl: img/icons/camel.svg
+    fabric8.io/git-branch: master
     fabric8.io/metrics-path: dashboard/file/camel-routes.json/?var-project=camel-ose-springboot-xml&var-version=1.0.0-SNAPSHOT
   labels:
     app: camel-ose-springboot-xml
@@ -25,7 +27,9 @@ spec:
   template:
     metadata:
       annotations:
+        fabric8.io/git-commit: 5e117a68e800d0e2bc19826bb1f4fc0e453e8bb6
         fabric8.io/iconUrl: img/icons/camel.svg
+        fabric8.io/git-branch: master
         fabric8.io/metrics-path: dashboard/file/camel-routes.json/?var-project=camel-ose-springboot-xml&var-version=1.0.0-SNAPSHOT
       labels:
         app: camel-ose-springboot-xml
@@ -41,7 +45,7 @@ spec:
           valueFrom:
             fieldRef:
               fieldPath: metadata.namespace
-        image: demo/camel-ose-springboot-xml:snapshot-180711-163138-0997
+        image: demo/camel-ose-springboot-xml:snapshot-180712-113246-0763
         imagePullPolicy: IfNotPresent
         livenessProbe:
           httpGet:
